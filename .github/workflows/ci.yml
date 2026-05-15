@@ -37,8 +37,7 @@ jobs:
           pip install -r requirements.txt -r dev-requirements.txt
 
       - name: Run unit tests with pytest
-          run: |
-            PYTHONPATH=. pytest tests/ -q
+        run: pytest tests/ -q
 
   # Job 2: SAST with Bandit
   sast-bandit:
