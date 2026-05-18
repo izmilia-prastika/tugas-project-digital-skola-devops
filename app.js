@@ -4,12 +4,17 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
+let notes = [];
+
 app.get('/notes', (req, res) => {
-    res.json([]);
+    res.json(notes);
 });
 
 app.post('/notes', (req, res) => {
-    res.status(201).json({ id: 1, ...req.body });
+    const { title, body } = req.body;
+    const newNote = { id: notes.length + 1, title, body };
+    notes.push(newNote);
+    res.status(201).json(newNote);
 });
 
 app.listen(port, () => {

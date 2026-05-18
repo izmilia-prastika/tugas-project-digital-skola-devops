@@ -56,8 +56,10 @@ jobs:
         with:
           args: >
             -Dsonar.organization=izmilia-prastika
-            -Dsonar.projectKey=notes-app-sonar
+            -Dsonar.projectKey=tugas-project-digital-skola-devops
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+            -Dsonar.sources=.
+            -Dsonar.exclusions=**/node_modules/**,**/coverage/**,**/loadtest/**
 
   k6-smoke-test:
     name: k6 Smoke Test

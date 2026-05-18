@@ -16,9 +16,9 @@ export const options = {
 const BASE = __ENV.BASE_URL || 'http://localhost:3000';
 
 export default function () {
-    const payload = JSON.stringify({ title: 'test', body: 'content' });
+    const payload = JSON.stringify({ title: 'test note', body: 'content' });
     const createRes = http.post(`${BASE}/notes`, payload, {
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json' },
     });
     check(createRes, { 'status 201': (r) => r.status === 201 });
 

@@ -5,12 +5,12 @@ module.exports = [
     js.configs.recommended,
     {
         files: ['**/*.js'],
+        ignores: ['node_modules/**', 'coverage/**', 'loadtest/**'],
         languageOptions: {
             sourceType: 'commonjs',
             globals: {
                 ...globals.node,
                 ...globals.jest,
-                __ENV: 'readonly',
             },
         },
         rules: {
