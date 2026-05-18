@@ -32,7 +32,7 @@ jobs:
       - run: npm test
       - uses: actions/upload-artifact@v4
         with:
-          name: coverage
+          name: coverage-report
           path: coverage/
 
   sonarqube:
@@ -48,10 +48,16 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
-      - uses: SonarSource/sonarqube-scan-action@v6
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v6
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        with:
+          args: >
+            -Dsonar.organization=GANTI_DENGAN_ORGANIZATION_ANDA
+            -Dsonar.projectKey=notes-app-sonar
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
 
   k6-smoke-test:
     name: k6 Smoke Test
@@ -62,12 +68,14 @@ jobs:
         with:
           node-version: 24
       - run: npm ci
-      - name: Start app
+      - name: Start application
         run: |
           npm start &
           sleep 5
-      - uses: grafana/setup-k6-action@v1
-      - run: k6 run loadtest/script.js
-      - name: Stop app
+      - name: Setup k6
+        uses: grafana/setup-k6-action@v1
+      - name: Run k6 smoke test
+        run: k6 run loadtest/script.js
+      - name: Stop application
         if: always()
         run: kill $(lsof -t -i:3000) || true
