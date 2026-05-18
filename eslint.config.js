@@ -1,24 +1,38 @@
-const { FlatCompat } = require('@eslint/eslintrc');
 const js = require('@eslint/js');
-
-// Initialize with the necessary configurations
-const compat = new FlatCompat({
-  recommendedConfig: js.configs.recommended,
-  eslintrc: true
-});
+const globals = require('globals');
 
 module.exports = [
-  js.configs.recommended,
-  ...compat.config({
-    env: { 
-      es2021: true, 
-      node: true, 
-      jest: true 
+    js.configs.recommended,
+    {
+        files: ['**/*.js'],
+        languageOptions: {
+            sourceType: 'commonjs',
+            globals: {
+                ...globals.node,
+                ...globals.jest,
+                __ENV: 'readonly',
+            },
+        },
+        rules: {
+            'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+            'eqeqeq': ['error', 'always'],
+            'semi': ['error', 'always'],
+            'no-console': 'off',
+        },
     },
-    rules: {
-      "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
-      "no-console": "off",
-      "eqeqeq": ["error", "always"]
-    }
-  })
+    {
+        files: ['loadtest/**/*.js'],
+        languageOptions: {
+            sourceType: 'module',
+            globals: {
+                ...globals.node,
+                __ENV: 'readonly',
+            },
+        },
+        rules: {
+            'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+            'eqeqeq': ['error', 'always'],
+            'semi': ['error', 'always'],
+        },
+    },
 ];

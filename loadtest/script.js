@@ -16,14 +16,12 @@ export const options = {
 const BASE = __ENV.BASE_URL || 'http://localhost:3000';
 
 export default function () {
-    // Create a note
-    const payload = JSON.stringify({ title: 'test note', body: 'content' });
+    const payload = JSON.stringify({ title: 'test', body: 'content' });
     const createRes = http.post(`${BASE}/notes`, payload, {
         headers: { 'Content-Type': 'application/json' }
     });
     check(createRes, { 'status 201': (r) => r.status === 201 });
 
-    // List all notes
     const listRes = http.get(`${BASE}/notes`);
     check(listRes, { 'status 200': (r) => r.status === 200 });
 
