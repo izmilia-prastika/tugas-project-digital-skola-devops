@@ -8,6 +8,12 @@ describe('Notes API', () => {
         expect(Array.isArray(res.body)).toBe(true);
     });
 
+    it('GET / should return status ok', async () => {
+        const res = await request(app).get('/');
+        expect(res.statusCode).toBe(200);
+        expect(res.body.status).toBe('ok');
+    });
+
     it('POST /notes should create a note and return 201', async () => {
         const res = await request(app)
             .post('/notes')
